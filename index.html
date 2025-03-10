@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kara AI - Coming Soon</title>
+    <title>Kara AI - Under Development</title>
     <style>
-        /* Base styles */
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -21,24 +21,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
             text-align: center;
-            overflow-x: hidden;
+            padding: 2rem;
             transition: background 0.5s ease;
         }
-        
-        .container {
-            max-width: 900px;
-            width: 100%;
-            padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-        
+
+        /* Theme Toggle */
         .theme-toggle {
             position: absolute;
             top: 15px;
@@ -56,199 +44,187 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Logo and title styles */
+        /* Animated Logo */
         .logo {
             font-size: 4rem;
             font-weight: bold;
-            margin-bottom: 1rem;
             color: #ffffff;
             text-shadow: 0 0 20px rgba(0, 170, 255, 0.7);
             letter-spacing: 2px;
-        }
-        
-        .subtitle {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            color: #ddd;
-        }
-        
-        .description {
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            max-width: 700px;
-        }
-        
-        /* Features section */
-        .features {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 2rem 0;
-        }
-        
-        .feature {
-            flex-basis: 30%;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            transition: all 0.3s;
-        }
-        
-        .feature:hover {
-            transform: translateY(-10px);
-            background-color: rgba(255, 255, 255, 0.1);
+            animation: glow 1.5s infinite alternate;
         }
 
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(0, 170, 255, 0.7); }
+            to { text-shadow: 0 0 30px rgba(0, 170, 255, 1); }
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            width: 50%;
+            height: 20px;
+            background: #00a8ff;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Chatbot Popup */
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .chatbot-header {
+            font-size: 1.2rem;
+            font-weight: bold;
             color: #00a8ff;
         }
 
-        /* Waitlist form */
-        .waitlist-form {
-            margin-bottom: 2rem;
-            max-width: 500px;
+        .chat-messages {
+            height: 150px;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .chat-input {
             width: 100%;
-        }
-        
-        .form-group {
-            position: relative;
-            display: flex;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
+            padding: 0.5rem;
             border: none;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
+            border-radius: 5px;
         }
 
-        .btn {
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #00a8ff, #007bff);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-left: -50px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Response Message */
-        .response-message {
-            display: none;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-        
-        .success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-        }
-        
-        .error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-        }
-
-        /* Background Animation */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        body {
-            background-size: 300% 300%;
-            animation: gradientAnimation 12s ease infinite;
-        }
-
-        /* Responsive styles */
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .logo {
                 font-size: 3rem;
             }
-            .subtitle {
-                font-size: 1.4rem;
+            .countdown {
+                font-size: 1.5rem;
             }
-            .feature {
-                flex-basis: 100%;
+            .progress-container {
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- Theme Toggle -->
     <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
 
-    <div class="container">
-        <div class="logo">KARA AI</div>
-        <h2 class="subtitle">The Future of Intelligent Assistance</h2>
+    <!-- Animated Logo -->
+    <div class="logo">KARA AI</div>
 
-        <div class="description">
-            <p>Kara is an advanced AI agent under development by Abdullah Chaudhary.</p>
-        </div>
+    <!-- Countdown Timer -->
+    <div class="countdown">Launching in: <span id="timer"></span></div>
 
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">🧠</div>
-                <h3>Intelligent</h3>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">💬</div>
-                <h3>Conversational</h3>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🔧</div>
-                <h3>Versatile</h3>
-            </div>
-        </div>
-
-        <h3>Join the Waitlist</h3>
-        <div class="waitlist-form">
-            <div class="form-group">
-                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-                <button class="btn" onclick="joinWaitlist()">Join</button>
-            </div>
-            <div id="response" class="response-message"></div>
-        </div>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
 
+    <!-- Chatbot Popup -->
+    <div class="chatbot" id="chatbot">
+        <div class="chatbot-header">Kara AI - Ask Me!</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." onkeypress="handleChat(event)">
+    </div>
+
+    <!-- Chatbot Button -->
+    <button style="position: fixed; bottom: 20px; right: 20px; background: #00a8ff; border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer;" onclick="toggleChat()">💬 Chat</button>
+
     <script>
-        function joinWaitlist() {
-            const email = document.getElementById('email').value;
-            const response = document.getElementById('response');
+        // Countdown Timer
+        function startCountdown() {
+            const launchDate = new Date("2025-12-31").getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = launchDate - now;
 
-            if (!email || !email.includes("@")) {
-                response.textContent = "Please enter a valid email.";
-                response.className = "response-message error";
-                response.style.display = "block";
-                return;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+
+        startCountdown();
+
+        // Progress Bar (Simulating Development Progress)
+        function updateProgress() {
+            const progressBar = document.getElementById("progress-bar");
+            let progress = 50;
+            setInterval(() => {
+                if (progress < 100) {
+                    progress += 1;
+                    progressBar.style.width = progress + "%";
+                }
+            }, 3000);
+        }
+
+        updateProgress();
+
+        // Chatbot Functionality
+        function toggleChat() {
+            const chat = document.getElementById("chatbot");
+            chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+        }
+
+        function handleChat(event) {
+            if (event.key === "Enter") {
+                const input = document.getElementById("chat-input");
+                const messageBox = document.getElementById("chat-messages");
+                const message = input.value;
+                if (message.trim() === "") return;
+                
+                messageBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+                setTimeout(() => {
+                    messageBox.innerHTML += `<p><strong>Kara:</strong> I'm still learning! Stay tuned for my full capabilities.</p>`;
+                }, 1000);
+                input.value = "";
+                messageBox.scrollTop = messageBox.scrollHeight;
             }
-
-            response.textContent = "You've been added!";
-            response.className = "response-message success";
-            response.style.display = "block";
         }
 
+        // Theme Toggle
         function toggleTheme() {
-            document.body.classList.toggle("dark-mode");
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
         }
+
+        // Load Theme Preference
+        (function loadTheme() {
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+            }
+        })();
     </script>
 </body>
-    </html>
+</html>
