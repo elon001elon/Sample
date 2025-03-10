@@ -3,477 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KARA - Premium AI Assistant</title>
+    <title>Kara AI - Coming Soon</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap');
-        
+        /* Base styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
-            background-color: #000;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: #fff;
-            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(68, 1, 84, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(1, 8, 84, 0.15) 0%, transparent 40%);
-        }
-        
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            opacity: 0.3;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        header {
-            padding: 2rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, #fff, #9d8e7a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .main {
-            min-height: calc(100vh - 200px);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 5rem 0;
-        }
-        
-        .hero {
-            display: flex;
-            flex-direction: column;
             align-items: center;
+            padding: 2rem;
             text-align: center;
-            margin-bottom: 5rem;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
         }
         
-        .tagline {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            color: #9d8e7a;
-            margin-bottom: 1.5rem;
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
         
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            background: linear-gradient(to right, #fff, #9d8e7a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .theme-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Logo and title styles */
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.7);
+            letter-spacing: 2px;
         }
         
         .subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 700px;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+        
+        .description {
             margin-bottom: 3rem;
+            font-size: 1.1rem;
             line-height: 1.6;
+            max-width: 700px;
         }
         
-        .golden-button {
-            font-family: 'Montserrat', sans-serif;
-            display: inline-block;
-            padding: 1.2rem 3rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #000;
-            background: linear-gradient(135deg, #e6c66a, #bda55d);
-            border: none;
-            border-radius: 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            font-weight: 600;
-        }
-        
-        .golden-button:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(135deg, #bda55d, #e6c66a);
-            transition: all 0.5s ease;
-            z-index: -1;
-        }
-        
-        .golden-button:hover:before {
-            width: 100%;
-        }
-        
+        /* Features section */
         .features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-            margin-top: 5rem;
-            margin-bottom: 5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
         }
         
         .feature {
-            background: rgba(20, 20, 20, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
+            flex-basis: 30%;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s;
         }
         
         .feature:hover {
             transform: translateY(-10px);
-            border-color: rgba(157, 142, 122, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
-        .feature:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #9d8e7a, transparent);
-            transition: all 0.6s ease;
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #00a8ff;
         }
-        
-        .feature:hover:before {
+
+        /* Waitlist form */
+        .waitlist-form {
+            margin-bottom: 2rem;
+            max-width: 500px;
             width: 100%;
         }
         
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #9d8e7a;
-        }
-        
-        .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-        
-        .feature p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-        
-        .waitlist {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 4rem;
-            background: rgba(20, 20, 20, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
-        
-        .waitlist h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .waitlist p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
         .form-group {
+            position: relative;
             display: flex;
-            margin-bottom: 1.5rem;
         }
         
-        .input-field {
-            flex: 1;
+        .form-control {
+            width: 100%;
             padding: 1rem 1.5rem;
-            font-size: 1rem;
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: rgba(157, 142, 122, 0.5);
-        }
-        
-        .submit-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #e6c66a, #bda55d);
+            border-radius: 50px;
             border: none;
-            color: #000;
             font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #00a8ff, #007bff);
+            color: white;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+            margin-left: -50px;
+            position: relative;
+            z-index: 2;
         }
-        
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #bda55d, #e6c66a);
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        
+
+        /* Response Message */
         .response-message {
             display: none;
             padding: 1rem;
+            border-radius: 10px;
             margin-top: 1rem;
-            font-weight: 600;
+            font-weight: bold;
         }
         
         .success {
-            color: #9d8e7a;
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
         }
         
         .error {
+            background-color: rgba(231, 76, 60, 0.2);
             color: #e74c3c;
         }
-        
-        footer {
-            padding: 3rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+
+        /* Background Animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        
-        .footer-content {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
+
+        body {
+            background-size: 300% 300%;
+            animation: gradientAnimation 12s ease infinite;
         }
-        
-        .footer-content strong {
-            color: #9d8e7a;
-        }
-        
-        .separator {
-            width: 50px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, #9d8e7a, transparent);
-            margin: 2rem auto;
-        }
-        
-        .exclusive-tag {
-            display: inline-block;
-            border: 1px solid #9d8e7a;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            margin-bottom: 2rem;
-            color: #9d8e7a;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        .marquee {
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-            background: rgba(20, 20, 20, 0.8);
-            padding: 1rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin: 2rem 0;
-        }
-        
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 60s linear infinite;
-            padding-right: 50px;
-        }
-        
-        .marquee-item {
-            display: inline-block;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-            margin-right: 50px;
-        }
-        
-        .marquee-highlight {
-            color: #9d8e7a;
-            font-weight: 600;
-        }
-        
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        
-        @media (max-width: 1024px) {
-            .features {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
+
+        /* Responsive styles */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3.5rem;
+            .logo {
+                font-size: 3rem;
             }
-            
-            .features {
-                grid-template-columns: 1fr;
+            .subtitle {
+                font-size: 1.4rem;
             }
-            
-            .waitlist {
-                padding: 3rem 2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .form-group {
-                flex-direction: column;
-            }
-            
-            .input-field {
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-            
-            .submit-btn {
-                width: 100%;
+            .feature {
+                flex-basis: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="noise"></div>
-    
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+
     <div class="container">
-        <header>
-            <div class="logo">KARA</div>
-            <div class="tagline">By Invitation Only</div>
-        </header>
-        
-        <div class="main">
-            <div class="hero">
-                <span class="exclusive-tag">Limited Availability</span>
-                <h1>The Pinnacle of Artificial Intelligence</h1>
-                <p class="subtitle">Experience KARA, a revolutionary AI assistant engineered for those who demand excellence. Crafted with precision and sophistication to elevate your digital experience.</p>
-                <a href="#waitlist" class="golden-button">Request Access</a>
+        <div class="logo">KARA AI</div>
+        <h2 class="subtitle">The Future of Intelligent Assistance</h2>
+
+        <div class="description">
+            <p>Kara is an advanced AI agent under development by Abdullah Chaudhary.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <h3>Intelligent</h3>
             </div>
-            
-            <div class="marquee">
-                <div class="marquee-content">
-                    <span class="marquee-item">Advanced <span class="marquee-highlight">Reasoning Capabilities</span></span>
-                    <span class="marquee-item">Intuitive <span class="marquee-highlight">Conversational Interface</span></span>
-                    <span class="marquee-item">Bespoke <span class="marquee-highlight">Personalization</span></span>
-                    <span class="marquee-item">Unparalleled <span class="marquee-highlight">Efficiency</span></span>
-                    <span class="marquee-item">Enterprise-Grade <span class="marquee-highlight">Security</span></span>
-                    <span class="marquee-item">Seamless <span class="marquee-highlight">Integration</span></span>
-                    <span class="marquee-item">Advanced <span class="marquee-highlight">Reasoning Capabilities</span></span>
-                    <span class="marquee-item">Intuitive <span class="marquee-highlight">Conversational Interface</span></span>
-                    <span class="marquee-item">Bespoke <span class="marquee-highlight">Personalization</span></span>
-                    <span class="marquee-item">Unparalleled <span class="marquee-highlight">Efficiency</span></span>
-                    <span class="marquee-item">Enterprise-Grade <span class="marquee-highlight">Security</span></span>
-                    <span class="marquee-item">Seamless <span class="marquee-highlight">Integration</span></span>
-                </div>
+            <div class="feature">
+                <div class="feature-icon">💬</div>
+                <h3>Conversational</h3>
             </div>
-            
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">✦</div>
-                    <h3>Exceptional Intelligence</h3>
-                    <p>KARA's cutting-edge cognitive architecture delivers insights and solutions with unprecedented depth and precision.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">✦</div>
-                    <h3>Bespoke Experience</h3>
-                    <p>Tailored to your unique preferences and workflows, KARA adapts with remarkable intuition to anticipate your needs.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">✦</div>
-                    <h3>Unrivaled Versatility</h3>
-                    <p>From complex analysis to creative endeavors, KARA excels across domains with sophisticated capabilities.</p>
-                </div>
-            </div>
-            
-            <div class="waitlist" id="waitlist">
-                <h2>Join the Exclusive Waitlist</h2>
-                <p>KARA is currently available by invitation only. Submit your details to request priority access when we begin accepting new members.</p>
-                <div class="form-group">
-                    <input type="email" class="input-field" id="email" placeholder="Your Email Address" required>
-                    <button type="submit" class="submit-btn" onclick="joinWaitlist()">Submit</button>
-                </div>
-                <div id="response" class="response-message"></div>
+            <div class="feature">
+                <div class="feature-icon">🔧</div>
+                <h3>Versatile</h3>
             </div>
         </div>
-        
-        <footer>
-            <div class="separator"></div>
-            <div class="footer-content">
-                <p>© 2025 <strong>Abdullah Chaudhary</strong>. All rights reserved.</p>
-                <p>KARA AI - Redefining excellence in artificial intelligence</p>
+
+        <h3>Join the Waitlist</h3>
+        <div class="waitlist-form">
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                <button class="btn" onclick="joinWaitlist()">Join</button>
             </div>
-        </footer>
+            <div id="response" class="response-message"></div>
+        </div>
     </div>
-    
+
     <script>
         function joinWaitlist() {
             const email = document.getElementById('email').value;
             const response = document.getElementById('response');
-            
-            // Email validation
-            if (!email || !isValidEmail(email)) {
-                response.textContent = "Please provide a valid email address.";
+
+            if (!email || !email.includes("@")) {
+                response.textContent = "Please enter a valid email.";
                 response.className = "response-message error";
                 response.style.display = "block";
                 return;
             }
-            
-            // Simulate adding to waitlist
-            setTimeout(() => {
-                response.textContent = "Thank you. Your request has been received and will be reviewed by Kara's team.";
-                response.className = "response-message success";
-                response.style.display = "block";
-                document.getElementById('email').value = "";
-            }, 1000);
+
+            response.textContent = "You've been added!";
+            response.className = "response-message success";
+            response.style.display = "block";
         }
-        
-        function isValidEmail(email) {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
         }
     </script>
 </body>
-                                                       </html>
+    </html>
